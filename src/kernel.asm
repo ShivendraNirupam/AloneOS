@@ -1,6 +1,6 @@
 [BITS 32]
 global _start
-; extern kernel_main
+extern kernel_main
 
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
@@ -35,7 +35,7 @@ _start:
     ; sti       ;; DANGEROUS - IDT is not set yet, system will panic
                 ;; if there is an interrupt here - made a function
 
-    ; call kernel_main
+    call kernel_main
     jmp $
 
 

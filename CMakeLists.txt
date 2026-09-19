@@ -42,6 +42,8 @@ set(OS_IMAGE
 )
 
 
+# target_include_directories()
+
 
 find_program(NASM_EXECUTABLE nasm REQUIRED)
 
@@ -189,4 +191,49 @@ add_custom_target(run
 
     USES_TERMINAL
 )
+
+add_custom_command(
+    OUTPUT ${KERNEL_CPP_OBJ}
+    COMMAND ${I686_GXX_EXECUTABLE}
+            -m32
+            -ffreestanding
+            -fno-exceptions
+            -fno-rtti
+            -fno-stack-protector
+            -fno-pic
+            -fno-pie
+            -c
+            ${KERNEL_CPP}
+            -o ${KERNEL_CPP_OBJ}
+    DEPENDS
+            ${KERNEL_CPP}
+            ${CMAKE_SOURCE_DIR}/src/kernel.h
+    COMMENT "Compiling kernel C++"
+)
+
+add_custom_command(
+    OUTPUT ${KERNEL_ASM_OBJ}
+    COMMAND ${NASM_EXECUTABLE}
+            -f elf32
+            ${KERNEL_ASM}
+            -o ${KERNEL_ASM_OBJ}
+    DEPENDS ${KERNEL_ASM}
+    COMMENT "Assembling kernel"
+)
+
+add_custom_command(
+    OUTPUT ${KERNEL_BIN}
+    COMMAND ${I686_LD_EXECUTABLE}
+            -m elf_i386
+            -T ${LINKER_SCRIPT}
+            -o ${KERNEL_BIN}
+            ${KERNEL_ASM_OBJ}
+            ${KERNEL_CPP_OBJ}
+    DEPENDS
+            ${KERNEL_ASM_OBJ}
+            ${KERNEL_CPP_OBJ}
+            ${LINKER_SCRIPT}
+    COMMENT "Linking kernel"
+)
+
 
