@@ -42,5 +42,8 @@ int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* tabl
         return res;
     }
 
+    size_t table_size = sizeof(HEAP_BLOCK_TABLE_ENTRY) * table->total;
+    memset(table->entries, HEAP_BLOCK_TABLE_FREE, table_size);
+
     return res;
 }
