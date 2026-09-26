@@ -22,6 +22,10 @@ struct heap {
     struct heap_table* table;
 
     void* saddr; // Start address of the heap data pool
+
+    size_t first_free_hint; // All the blocks befor this index are taken
 };
 
 int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* table);
+void* heap_malloc(struct heap* heap, size_t size);
+void heap_free(struct heap* heap, void* ptr);
