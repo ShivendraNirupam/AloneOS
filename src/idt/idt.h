@@ -5,8 +5,8 @@ struct idt_desc {
 
     uint16_t offset_1; // Offset bits 0- 15
     uint16_t selector; // Selector thats in our GDT
-    uint16_t zero; // Does nothing
-    uint16_t type_attr; // Descriptor type and attributes
+    uint8_t zero; // Does nothing
+    uint8_t type_attr; // Descriptor type and attributes
     uint16_t offset_2; // Offset bits 16 - 31
 
 } __attribute__((packed));
@@ -17,3 +17,5 @@ struct idtr_desc {
 } __attribute__((packed));
 
 void idt_init();
+extern "C" void enable_interrupts();
+extern "C" void disable_interrupts();

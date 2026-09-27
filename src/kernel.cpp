@@ -66,5 +66,6 @@ extern "C" void kernel_main() {
 
 
     idt_init(); // Inititalise the interrupt descriptor table
+    enable_interrupts(); // Enable the interrupts
 
 }

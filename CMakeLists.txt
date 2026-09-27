@@ -189,3 +189,14 @@ add_custom_target(run
     DEPENDS image
     USES_TERMINAL
 )
+
+add_custom_target(debug
+    COMMAND ${QEMU}
+            -drive format=raw,file=${OS_IMAGE}
+            -no-reboot
+            -no-shutdown
+            -d int,cpu_reset
+            -D ${CMAKE_BINARY_DIR}/qemu.log
+    DEPENDS image
+    USES_TERMINAL
+)
