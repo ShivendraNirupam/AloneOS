@@ -21,3 +21,7 @@ void kheap_init() {
         print("Failed ot create heap\n"); // Todo: create panic
     }
 }
+
+void* kmalloc(size_t size) {
+    return heap_malloc(&kernel_heap, size);
+}
