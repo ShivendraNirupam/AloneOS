@@ -12,9 +12,15 @@ namespace paging {
     inline constexpr uint8_t PAGING_PAGE_SIZE_4MB   = 1u << 7;
 
     inline constexpr size_t PAGING_TOTAL_ENTRIES_PER_TABLE = 1024;
+    inline constexpr size_t PAGING_PAGE_SIZE               = 4096;
 }
 
-struct paging_4g_chunk {
+struct paging_4gb_chunk {
     uint32_t* directory_entry;
 
 };
+
+uint32_t* paging_4gb_chunk_get_directory(struct paging_4gb_chunk* chunk);
+struct paging_4gb_chunk* paging_new_4gb(uint8_t flags);
+void paging_switch(uint32_t* directory);
+extern "C" void enable_paging();
