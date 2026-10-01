@@ -78,8 +78,14 @@ extern "C" void kernel_main() {
         paging::PAGING_IS_PRESENT |
         paging::PAGING_ACCESS_FROM_ALL
     ); 
-    paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
-    enable_paging();
+    paging_switch(paging_4gb_chunk_get_directory(kernel_chunk)); // Switch to kernel paging chunk
+    char* ptr = static_cast<char*>(kzalloc(4096));
+    paging_set(
+        paging_4gb_chunk_get_directory(kernel_chunk), 
+        reinterpret_cast<void*>(0x1000), 
+        reinterpret_cast<uint32_t>(ptr) | paging::PAGING_ACCESS_FROM_ALL | paging::PAGING_IS_PRESENT | paging::PAGING_IS_WRITEABLE
+    );
+    enable_paging(); // Enable paging
 
     //---------------------------
     // Paging setup above
