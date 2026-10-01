@@ -67,6 +67,7 @@ extern "C" void kernel_main() {
 
     kheap_init(); // Initialise the heap 
 
+    disk_search_and_init(); // Search and Initialise the disk 
 
     idt_init(); // Inititalise the interrupt descriptor table
 
@@ -87,9 +88,8 @@ extern "C" void kernel_main() {
     // Paging setup above
     //---------------------------
 
-    char buff[512];
-    disk_read_sector(0, 1, buff);
-
+    char buf[256];
+    disk_read_block(disk_get(0), 20, 4, & buf);
 
     enable_interrupts(); // Enable the interrupts
 
